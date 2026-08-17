@@ -1,0 +1,151 @@
+/* =========================================================================
+   MZAFA — Transparent overlay header that condenses on scroll / hover
+   ========================================================================= */
+
+.mzafa-header{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: transparent;
+  color: var(--mzafa-white, #fff);
+  font-family: var(--mzafa-font-body, 'Poppins', sans-serif);
+  transition: background .35s ease, box-shadow .35s ease;
+}
+/* Non-hero pages: always the compact, dark, sticky version */
+.mzafa-header:not(.mzafa-header--hero){
+  position: sticky;
+  background: var(--mzafa-primary, #2B2620);
+}
+.mzafa-header.is-condensed{
+  background: rgba(43,38,32,.94);
+  box-shadow: 0 2px 20px rgba(0,0,0,.12);
+  backdrop-filter: blur(6px);
+}
+
+.mzafa-header-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 30px clamp(16px, 4vw, 40px);
+  transition: padding .35s ease;
+}
+.mzafa-header.is-condensed .mzafa-header-inner{
+  padding: 16px clamp(16px, 4vw, 40px);
+}
+
+.mzafa-header-left,
+.mzafa-header-right{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1 1 0;
+}
+.mzafa-header-right{ justify-content: flex-end; }
+
+.mzafa-header-menu-btn{
+  display: flex; align-items: center; gap: 10px;
+  background: none; border: none; cursor: pointer;
+  color: inherit; font-family: inherit;
+  font-size: 14px; letter-spacing: .04em;
+  padding: 6px 0;
+}
+.mzafa-header-menu-icon{ display:flex; flex-direction:column; gap:5px; width:20px; }
+.mzafa-header-menu-icon span{ display:block; height:1.5px; background: currentColor; transition: width .2s ease; }
+
+.mzafa-header-logo{
+  font-family: var(--mzafa-font-heading, 'Libertinus Sans', serif);
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 30px);
+  letter-spacing: .22em;
+  color: inherit;
+  text-transform: uppercase;
+  transition: font-size .35s ease;
+  text-align: center;
+}
+.mzafa-header-logo img{ max-height: 34px; width: auto; transition: max-height .35s ease; }
+.mzafa-header.is-condensed .mzafa-header-logo{ font-size: clamp(16px, 2vw, 22px); }
+.mzafa-header.is-condensed .mzafa-header-logo img{ max-height: 24px; }
+
+.mzafa-header-icon{
+  color: inherit; display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; background: none; border: none; cursor: pointer; padding: 0;
+  position: relative;
+}
+.mzafa-header-icon svg{ width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.4; }
+.mzafa-header-cart-count{
+  position: absolute; top: -8px; right: -10px;
+  background: var(--mzafa-secondary, #C8B49B); color: var(--mzafa-primary, #2B2620);
+  font-size: 10px; font-weight: 600; line-height: 1;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.mzafa-header-contact{
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; letter-spacing: .04em; color: inherit; white-space: nowrap;
+}
+.mzafa-header-contact svg{ width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.4; }
+.mzafa-header-contact span{ display: none; }
+@media (min-width: 990px){
+  .mzafa-header-contact span{ display: inline; }
+}
+
+/* ---- Search flyout ---- */
+.mzafa-header-search{
+  max-height: 0; overflow: hidden; transition: max-height .3s ease;
+  background: rgba(43,38,32,.96);
+}
+.mzafa-header-search.is-open{ max-height: 90px; }
+.mzafa-header-search-form{
+  display: flex; gap: 10px; max-width: 640px; margin: 0 auto; padding: 18px clamp(16px,4vw,40px);
+}
+.mzafa-header-search-form input{
+  flex: 1; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,.4);
+  color: #fff; font-family: var(--mzafa-font-body, 'Poppins', sans-serif); font-size: 15px; padding: 6px 0;
+}
+.mzafa-header-search-form input::placeholder{ color: rgba(255,255,255,.6); }
+.mzafa-header-search-form button{
+  background: none; border: none; color: #fff; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+}
+
+/* ---- Mobile drawer ---- */
+.mzafa-drawer{ position: fixed; inset: 0; z-index: 200; visibility: hidden; }
+.mzafa-drawer.is-open{ visibility: visible; }
+.mzafa-drawer-backdrop{
+  position: absolute; inset: 0; background: rgba(43,38,32,.5);
+  opacity: 0; transition: opacity .3s ease;
+}
+.mzafa-drawer.is-open .mzafa-drawer-backdrop{ opacity: 1; }
+.mzafa-drawer-panel{
+  position: absolute; top: 0; left: 0; bottom: 0; width: min(360px, 84vw);
+  background: var(--mzafa-bg, #FAF7F0); color: var(--mzafa-primary, #2B2620);
+  padding: 28px 28px 40px; overflow-y: auto;
+  transform: translateX(-100%); transition: transform .35s ease;
+  display: flex; flex-direction: column;
+}
+.mzafa-drawer.is-open .mzafa-drawer-panel{ transform: translateX(0); }
+.mzafa-drawer-close{
+  align-self: flex-end; background: none; border: none; font-size: 26px; line-height: 1;
+  cursor: pointer; color: inherit; margin-bottom: 20px;
+}
+.mzafa-drawer-nav ul{ list-style: none; margin: 0; padding: 0; }
+.mzafa-drawer-nav > ul > li{ border-bottom: 1px solid var(--mzafa-line, rgba(43,38,32,.14)); }
+.mzafa-drawer-nav > ul > li > a{
+  display: block; padding: 16px 0; font-family: var(--mzafa-font-heading, 'Libertinus Sans', serif);
+  font-weight: 700; font-size: 17px; letter-spacing: .04em; color: inherit;
+}
+.mzafa-drawer-sub{ padding: 0 0 14px 12px !important; display: flex; flex-direction: column; gap: 10px; }
+.mzafa-drawer-sub li a{ font-size: 14px; font-weight: 300; color: var(--mzafa-primary-80, rgba(43,38,32,.8)); }
+
+/* ---- Social icons over hero ---- */
+.mzafa-hero-social{
+  position: absolute; right: clamp(16px,4vw,40px); bottom: clamp(16px,3vw,32px);
+  z-index: 5; display: flex; gap: 16px;
+}
+.mzafa-hero-social a{
+  width: 20px; height: 20px; color: #fff; opacity: .9; transition: opacity .2s ease, transform .2s ease;
+}
+.mzafa-hero-social a:hover{ opacity: 1; transform: translateY(-2px); }
+.mzafa-hero-social svg{ width: 100%; height: 100%; fill: currentColor; }

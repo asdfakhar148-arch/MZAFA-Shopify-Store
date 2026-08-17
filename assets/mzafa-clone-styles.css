@@ -1,0 +1,325 @@
+/* =========================================================================
+   MZAFA — Cloned Page System (Home + Product)
+   Source references: Shaun Leane (home layout) / Grace PK (product layout)
+   Structure + interaction transcribed, all copy paraphrased, all media
+   swappable via the Shopify theme editor. Re-namespaced under "mzafa-".
+   ========================================================================= */
+
+/* ---- Fonts ---------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@font-face {
+  font-family: 'Libertinus Sans';
+  src: url('{{ "LibertinusSans-Bold.ttf" | asset_url }}') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Only the Bold weight file was supplied. Headings are set in 700 by
+   default. If you upload additional Libertinus Sans weights to
+   assets/, add matching @font-face blocks and the --mzafa-font-heading-*
+   weight variables below will pick them up. */
+
+/* ---- Design tokens ---------------------------------------------------- */
+:root{
+  --mzafa-primary:      #2B2620; /* deep espresso — text, buttons, nav */
+  --mzafa-primary-80:   rgba(43,38,32,.8);
+  --mzafa-primary-60:   rgba(43,38,32,.6);
+  --mzafa-secondary:    #C8B49B; /* warm taupe/gold — accents, borders */
+  --mzafa-secondary-30: rgba(200,180,155,.3);
+  --mzafa-bg:           #FAF7F0; /* warm off-white */
+  --mzafa-white:        #FFFFFF;
+  --mzafa-line:         rgba(43,38,32,.14);
+
+  --mzafa-font-heading: 'Libertinus Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mzafa-font-body:    'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --mzafa-section-pad-y: clamp(40px, 8vw, 96px);
+  --mzafa-section-pad-x: clamp(16px, 4vw, 32px);
+  --mzafa-radius-sm: 2px;
+  --mzafa-ease: cubic-bezier(.4,0,.2,1);
+}
+
+/* ---- Base ---------------------------------------------------------- */
+.mzafa-clone{
+  font-family: var(--mzafa-font-body);
+  color: var(--mzafa-primary);
+  background: var(--mzafa-bg);
+  -webkit-font-smoothing: antialiased;
+}
+.mzafa-clone *{ box-sizing: border-box; }
+.mzafa-clone img{ max-width:100%; height:auto; display:block; }
+.mzafa-clone a{ color:inherit; text-decoration:none; }
+.mzafa-clone h1,.mzafa-clone h2,.mzafa-clone h3,.mzafa-clone h4{
+  font-family: var(--mzafa-font-heading);
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:.01em;
+  margin:0;
+}
+.mzafa-clone p{ line-height:1.6; margin:0; font-weight:300; }
+.mzafa-clone .mzafa-eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:600;
+}
+.mzafa-clone .mzafa-underline-link{
+  display:inline-block; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:600; padding-bottom:6px; border-bottom:1px solid currentColor;
+  transition: opacity .2s var(--mzafa-ease);
+}
+.mzafa-clone .mzafa-underline-link:hover{ opacity:.6; }
+
+.mzafa-clone .mzafa-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:14px 28px; min-height:44px; font-family:var(--mzafa-font-body);
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase; font-weight:600;
+  border:1px solid var(--mzafa-primary); border-radius:var(--mzafa-radius-sm);
+  cursor:pointer; transition:all .2s var(--mzafa-ease); background:transparent;
+  color:var(--mzafa-primary);
+}
+.mzafa-clone .mzafa-btn:hover{ background:var(--mzafa-primary); color:var(--mzafa-white); }
+.mzafa-clone .mzafa-btn--solid{ background:var(--mzafa-primary); color:var(--mzafa-white); }
+.mzafa-clone .mzafa-btn--solid:hover{ opacity:.85; background:var(--mzafa-primary); }
+.mzafa-clone .mzafa-btn--light{ border-color:var(--mzafa-white); color:var(--mzafa-white); }
+.mzafa-clone .mzafa-btn--light:hover{ background:var(--mzafa-white); color:var(--mzafa-primary); }
+.mzafa-clone .mzafa-btn--full{ width:100%; }
+
+/* Placeholder media block — shown until the merchant swaps the image
+   in the theme editor. Keeps the exact aspect ratio of the source. */
+.mzafa-clone .mzafa-placeholder{
+  width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+  background: repeating-linear-gradient(135deg, var(--mzafa-secondary-30), var(--mzafa-secondary-30) 10px, transparent 10px, transparent 20px), var(--mzafa-secondary);
+  color:var(--mzafa-primary); text-align:center; padding:16px;
+}
+.mzafa-clone .mzafa-placeholder span{
+  font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+  background:var(--mzafa-white); padding:6px 12px; border-radius:2px;
+}
+
+/* =========================================================================
+   HOME — Announcement bar
+   ========================================================================= */
+.mzafa-announce{
+  background:var(--mzafa-primary); color:var(--mzafa-bg);
+  text-align:center; padding:9px 16px;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase; font-weight:500;
+}
+
+/* =========================================================================
+   HOME — Hero
+   ========================================================================= */
+.mzafa-hero{ position:relative; width:100%; overflow:hidden; }
+.mzafa-hero .mzafa-hero-media{
+  position:relative; width:100%; aspect-ratio: 16/9; min-height:420px; max-height:760px;
+}
+.mzafa-hero .mzafa-hero-media img,
+.mzafa-hero .mzafa-hero-media .mzafa-placeholder{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.mzafa-hero .mzafa-hero-scrim{
+  position:absolute; inset:0;
+  background:linear-gradient(0deg, rgba(43,38,32,.55) 0%, rgba(43,38,32,0) 45%);
+}
+.mzafa-hero .mzafa-hero-copy{
+  position:absolute; left:clamp(16px,4vw,48px); bottom:clamp(24px,5vw,56px);
+  color:var(--mzafa-white); max-width:520px;
+}
+.mzafa-hero .mzafa-hero-copy h1{
+  font-size:clamp(28px,4.6vw,46px); color:var(--mzafa-white); margin-bottom:18px;
+}
+.mzafa-hero .mzafa-hero-copy .mzafa-btn{ margin-top:4px; }
+
+/* =========================================================================
+   HOME — 3-column collection grid (Sabre / Serpent's Trace / Rose Thorn)
+   ========================================================================= */
+.mzafa-grid3{
+  display:grid; grid-template-columns:1fr; gap:1px; background:var(--mzafa-line);
+}
+.mzafa-grid3 .mzafa-grid3-card{
+  position:relative; background:var(--mzafa-bg); aspect-ratio:4/5; overflow:hidden;
+}
+.mzafa-grid3 .mzafa-grid3-card img,
+.mzafa-grid3 .mzafa-grid3-card .mzafa-placeholder{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transition: transform .5s var(--mzafa-ease);
+}
+.mzafa-grid3 .mzafa-grid3-card:hover img{ transform:scale(1.04); }
+.mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-title,
+.mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-link{
+  position:absolute; z-index:2; left:50%; width:90%; text-align:center; color:var(--mzafa-white);
+}
+.mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-title{
+  left:var(--mzafa-grid3-title-x, 50%); top:var(--mzafa-grid3-title-y, 32%);
+  transform:translate(-50%, -50%); font-size:var(--mzafa-grid3-title-size-mobile, 32px);
+  letter-spacing:.1em; text-transform:uppercase; color:var(--mzafa-white); margin:0;
+}
+.mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-link{
+  left:var(--mzafa-grid3-link-x, 50%); top:var(--mzafa-grid3-link-y, 44%);
+  transform:translate(-50%, -50%); width:auto; font-size:var(--mzafa-grid3-link-size-mobile, 14px);
+  color:var(--mzafa-white);
+}
+.mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-scrim{
+  position:absolute; inset:0; background:linear-gradient(0deg, rgba(43,38,32,.65) 0%, rgba(43,38,32,0) 55%); z-index:1;
+}
+
+/* =========================================================================
+   HOME — Full-width banner (Statement Earrings / Silver Rings)
+   ========================================================================= */
+.mzafa-banner{ position:relative; width:100%; aspect-ratio:16/9; min-height:360px; max-height:720px; overflow:hidden; }
+.mzafa-banner img,
+.mzafa-banner .mzafa-placeholder{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.mzafa-banner .mzafa-banner-scrim{ position:absolute; inset:0; background:linear-gradient(0deg, rgba(43,38,32,.55) 0%, rgba(43,38,32,0) 40%); }
+.mzafa-banner .mzafa-banner-copy{ position:absolute; left:clamp(16px,4vw,48px); bottom:clamp(24px,5vw,48px); color:var(--mzafa-white); z-index:2; }
+.mzafa-banner .mzafa-banner-copy h2{ font-size:clamp(22px,3.4vw,32px); color:var(--mzafa-white); text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px; }
+.mzafa-banner .mzafa-banner-copy a{ color:var(--mzafa-white); }
+
+/* =========================================================================
+   HOME — Split feature (Black Orchid: text block + 3 product cards)
+   ========================================================================= */
+.mzafa-split{
+  padding:var(--mzafa-section-pad-y) var(--mzafa-section-pad-x);
+  display:grid; grid-template-columns:1fr; gap:32px;
+}
+.mzafa-split .mzafa-split-copy h2{ font-size:clamp(22px,3vw,28px); margin-bottom:16px; text-transform:uppercase; letter-spacing:.03em; }
+.mzafa-split .mzafa-split-copy p{ margin-bottom:22px; max-width:34ch; }
+.mzafa-split .mzafa-split-cards{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:16px;
+  overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:4px;
+}
+.mzafa-split .mzafa-split-card{ scroll-snap-align:start; }
+.mzafa-split .mzafa-split-card .mzafa-split-card-media{
+  position:relative; width:100%; aspect-ratio:1/1; background:var(--mzafa-white); overflow:hidden; margin-bottom:14px;
+}
+.mzafa-split .mzafa-split-card-media img,
+.mzafa-split .mzafa-split-card-media .mzafa-placeholder{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.mzafa-split .mzafa-split-card h4{ font-size:13px; font-weight:500; font-family:var(--mzafa-font-body); margin-bottom:6px; }
+.mzafa-split .mzafa-split-card .mzafa-split-card-price{ font-size:13px; color:var(--mzafa-primary-80); margin-bottom:8px; }
+.mzafa-split .mzafa-split-card .mzafa-swatches{ display:flex; gap:6px; }
+.mzafa-split .mzafa-split-card .mzafa-swatch{ width:12px; height:12px; border-radius:50%; border:1px solid var(--mzafa-line); }
+
+/* =========================================================================
+   HOME — Trust icon row
+   ========================================================================= */
+.mzafa-trust{
+  display:grid; grid-template-columns:1fr; background:var(--mzafa-secondary-30);
+}
+.mzafa-trust .mzafa-trust-item{
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px;
+  padding:32px 20px; border-bottom:1px solid var(--mzafa-line);
+}
+.mzafa-trust .mzafa-trust-item svg{ width:30px; height:30px; stroke:var(--mzafa-primary); fill:none; stroke-width:1.4; }
+.mzafa-trust .mzafa-trust-item span{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; }
+
+/* =========================================================================
+   PRODUCT — Promo / announcement bar with arrows
+   ========================================================================= */
+.mzafa-promo{
+  background:var(--mzafa-primary); color:var(--mzafa-bg);
+  display:flex; align-items:center; justify-content:center; gap:20px;
+  padding:10px 16px; font-size:12px; letter-spacing:.06em; text-align:center;
+}
+.mzafa-promo button{ background:none; border:none; color:var(--mzafa-bg); cursor:pointer; opacity:.7; padding:4px; line-height:0; }
+.mzafa-promo button:hover{ opacity:1; }
+
+/* =========================================================================
+   PRODUCT — Gallery + buy box
+   ========================================================================= */
+.mzafa-pdp{
+  padding:clamp(20px,3vw,40px) var(--mzafa-section-pad-x) var(--mzafa-section-pad-y);
+  display:grid; grid-template-columns:1fr; gap:40px; max-width:1400px; margin:0 auto;
+}
+.mzafa-pdp .mzafa-pdp-gallery{ display:flex; flex-direction:column; gap:6px; }
+.mzafa-pdp .mzafa-pdp-thumbs{ display:flex; gap:8px; order:2; overflow-x:auto; }
+.mzafa-pdp .mzafa-pdp-thumb{
+  width:56px; height:56px; flex:0 0 auto; border:1px solid var(--mzafa-line); cursor:pointer;
+  opacity:.6; transition:opacity .2s var(--mzafa-ease); overflow:hidden; background:var(--mzafa-white);
+}
+.mzafa-pdp .mzafa-pdp-thumb.is-active,
+.mzafa-pdp .mzafa-pdp-thumb:hover{ opacity:1; border-color:var(--mzafa-primary); }
+.mzafa-pdp .mzafa-pdp-main{ order:1; display:flex; flex-direction:column; gap:6px; }
+.mzafa-pdp .mzafa-pdp-main-img{ position:relative; width:100%; aspect-ratio:4/5; background:var(--mzafa-white); overflow:hidden; }
+.mzafa-pdp .mzafa-pdp-main-img img,
+.mzafa-pdp .mzafa-pdp-main-img .mzafa-placeholder{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.mzafa-pdp .mzafa-pdp-main-img[data-active="false"]{ display:none; }
+
+.mzafa-pdp .mzafa-pdp-buybox{ display:flex; flex-direction:column; }
+.mzafa-pdp .mzafa-pdp-vendor{ font-size:12px; color:var(--mzafa-primary-60); margin-bottom:6px; }
+.mzafa-pdp .mzafa-pdp-title{ font-size:clamp(24px,3vw,30px); margin-bottom:12px; }
+.mzafa-pdp .mzafa-pdp-price{ font-size:18px; font-weight:500; margin-bottom:20px; }
+.mzafa-pdp .mzafa-pdp-price s{ color:var(--mzafa-primary-60); font-weight:400; margin-right:8px; }
+.mzafa-pdp .mzafa-pdp-desc{ border-top:1px solid var(--mzafa-line); padding-top:20px; margin-bottom:18px; }
+.mzafa-pdp .mzafa-pdp-desc p{ font-style:italic; font-size:14px; margin-bottom:12px; color:var(--mzafa-primary-80); }
+.mzafa-pdp .mzafa-pdp-origin{ font-style:italic; font-size:13px; font-weight:600; margin-bottom:20px; }
+.mzafa-pdp .mzafa-pdp-block{ margin-bottom:20px; }
+.mzafa-pdp .mzafa-pdp-block h3{ font-family:var(--mzafa-font-body); font-size:14px; font-weight:600; margin-bottom:10px; }
+.mzafa-pdp .mzafa-pdp-features{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+.mzafa-pdp .mzafa-pdp-features li{ font-size:13px; padding-left:16px; position:relative; }
+.mzafa-pdp .mzafa-pdp-features li::before{ content:"•"; position:absolute; left:0; color:var(--mzafa-secondary); }
+.mzafa-pdp .mzafa-pdp-block p{ font-size:13px; }
+.mzafa-pdp .mzafa-pdp-note{ font-size:12px; color:var(--mzafa-primary-60); border-top:1px solid var(--mzafa-line); padding-top:16px; margin-bottom:20px; }
+
+.mzafa-pdp .mzafa-pdp-size-label{ font-size:13px; font-weight:600; margin-bottom:10px; display:block; }
+.mzafa-pdp .mzafa-pdp-sizes{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px; }
+.mzafa-pdp .mzafa-pdp-size{
+  min-width:44px; height:44px; padding:0 12px; border:1px solid var(--mzafa-line);
+  display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer;
+  background:var(--mzafa-white); transition:all .15s var(--mzafa-ease);
+}
+.mzafa-pdp .mzafa-pdp-size:hover{ border-color:var(--mzafa-primary); }
+.mzafa-pdp .mzafa-pdp-size.is-selected,
+.mzafa-pdp .mzafa-pdp-size input:checked + span{ }
+.mzafa-pdp .mzafa-pdp-size-input{ display:none; }
+.mzafa-pdp .mzafa-pdp-size-input:checked + .mzafa-pdp-size-btn{ border-color:var(--mzafa-primary); background:var(--mzafa-primary); color:var(--mzafa-white); }
+.mzafa-pdp .mzafa-pdp-size-btn{
+  min-width:44px; height:44px; padding:0 12px; border:1px solid var(--mzafa-line);
+  display:flex; align-items:center; justify-content:center; font-size:13px; cursor:pointer;
+  background:var(--mzafa-white); transition:all .15s var(--mzafa-ease);
+}
+.mzafa-pdp .mzafa-pdp-size-btn:hover{ border-color:var(--mzafa-primary); }
+
+.mzafa-pdp .mzafa-pdp-qty{ display:flex; align-items:center; gap:0; width:130px; border:1px solid var(--mzafa-line); margin-bottom:20px; }
+.mzafa-pdp .mzafa-pdp-qty button{ width:40px; height:44px; background:none; border:none; font-size:16px; cursor:pointer; }
+.mzafa-pdp .mzafa-pdp-qty input{ width:50px; height:44px; border:none; border-left:1px solid var(--mzafa-line); border-right:1px solid var(--mzafa-line); text-align:center; font-family:var(--mzafa-font-body); font-size:14px; -moz-appearance:textfield; }
+.mzafa-pdp .mzafa-pdp-qty input::-webkit-outer-spin-button,
+.mzafa-pdp .mzafa-pdp-qty input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+
+.mzafa-pdp .mzafa-pdp-actions{ display:flex; flex-direction:column; gap:12px; margin-bottom:8px; }
+.mzafa-pdp .mzafa-pdp-error{ font-size:12px; color:#a33; margin-top:8px; display:none; }
+.mzafa-pdp .mzafa-pdp-error.is-visible{ display:block; }
+
+/* Sticky mobile add-to-cart */
+.mzafa-pdp-sticky{ display:none; }
+@media (max-width:749px){
+  .mzafa-pdp-sticky{
+    position:fixed; left:0; right:0; bottom:0; z-index:999; background:var(--mzafa-bg);
+    border-top:1px solid var(--mzafa-line); padding:10px 16px; display:flex; align-items:center;
+    justify-content:space-between; gap:12px; opacity:0; transform:translateY(100%);
+    transition:all .25s var(--mzafa-ease); box-shadow:0 -4px 16px rgba(43,38,32,.08);
+  }
+  .mzafa-pdp-sticky.is-visible{ opacity:1; transform:translateY(0); display:flex; }
+  .mzafa-pdp-sticky .mzafa-pdp-sticky-price{ font-size:14px; font-weight:600; }
+  .mzafa-pdp-sticky .mzafa-btn{ padding:12px 20px; }
+}
+
+/* =========================================================================
+   Responsive — tablet / desktop
+   ========================================================================= */
+@media (min-width:750px){
+  .mzafa-grid3{ grid-template-columns:repeat(3,1fr); }
+  .mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-title{ font-size:var(--mzafa-grid3-title-size, 40px); }
+  .mzafa-grid3 .mzafa-grid3-card .mzafa-grid3-link{ font-size:var(--mzafa-grid3-link-size, 15px); }
+  .mzafa-trust{ grid-template-columns:repeat(3,1fr); }
+  .mzafa-trust .mzafa-trust-item{ border-bottom:none; border-right:1px solid var(--mzafa-line); }
+  .mzafa-trust .mzafa-trust-item:last-child{ border-right:none; }
+  .mzafa-split{ grid-template-columns:.8fr 1.6fr; gap:40px; }
+  .mzafa-split .mzafa-split-cards{ grid-template-columns:repeat(3,1fr); overflow-x:visible; }
+  .mzafa-pdp{ grid-template-columns:1.1fr .9fr; gap:56px; }
+  .mzafa-pdp .mzafa-pdp-gallery{ flex-direction:row-reverse; }
+  .mzafa-pdp .mzafa-pdp-thumbs{ flex-direction:column; order:1; overflow-x:visible; overflow-y:auto; }
+  .mzafa-pdp .mzafa-pdp-thumb{ width:64px; height:64px; }
+  .mzafa-pdp .mzafa-pdp-main{ order:2; flex:1; }
+}
+@media (min-width:990px){
+  .mzafa-hero .mzafa-hero-copy h1{ margin-bottom:22px; }
+  .mzafa-split{ grid-template-columns:.7fr 1.6fr; }
+}
+
+/* Empty price/state guards */
+.mzafa-clone .mzafa-pdp-price:empty{ display:none; }
