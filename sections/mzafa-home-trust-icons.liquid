@@ -1,0 +1,53 @@
+{{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="mzafa-clone">
+  <section class="mzafa-trust">
+    {%- for block in section.blocks -%}
+      <div class="mzafa-trust-item" {{ block.shopify_attributes }}>
+        {%- case block.settings.icon -%}
+          {%- when 'truck' -%}
+            <svg viewBox="0 0 24 24"><path d="M1 3h13v13H1zM14 8h4l4 4v4h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+          {%- when 'return' -%}
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+          {%- when 'shield' -%}
+            <svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>
+          {%- else -%}
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+        {%- endcase -%}
+        <span>{{ block.settings.label }}</span>
+      </div>
+    {%- endfor -%}
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "MZAFA Trust Icons",
+  "tag": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Delivery" },
+          { "value": "return", "label": "Returns" },
+          { "value": "shield", "label": "Warranty" }
+        ]},
+        { "type": "text", "id": "label", "label": "Label", "default": "Free Delivery" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MZAFA Trust Icons",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "truck", "label": "Free Delivery" } },
+        { "type": "item", "settings": { "icon": "return", "label": "7 Day Returns" } },
+        { "type": "item", "settings": { "icon": "shield", "label": "925 Silver Guarantee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,147 @@
+{{ 'mzafa-header.css' | asset_url | stylesheet_tag }}
+
+{%- assign mzafa_is_home = false -%}
+{%- if request.page_type == 'index' -%}{%- assign mzafa_is_home = true -%}{%- endif -%}
+
+<header class="mzafa-header {% if mzafa_is_home and section.settings.transparent_on_home %}mzafa-header--hero{% endif %}" data-mzafa-header data-threshold="{{ section.settings.shrink_offset }}">
+  <div class="mzafa-header-inner">
+    <div class="mzafa-header-left">
+      <button type="button" class="mzafa-header-menu-btn" data-mzafa-menu-toggle aria-expanded="false" aria-controls="mzafa-mobile-drawer">
+        <span class="mzafa-header-menu-icon"><span></span><span></span></span>
+        <span>Menu</span>
+      </button>
+    </div>
+
+    <a href="{{ routes.root_url }}" class="mzafa-header-logo">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 300 | image_tag: alt: shop.name }}
+      {%- else -%}
+        {{ section.settings.logo_text | default: shop.name }}
+      {%- endif -%}
+    </a>
+
+    <div class="mzafa-header-right">
+      <a href="{{ routes.account_url }}" class="mzafa-header-icon" aria-label="Account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </a>
+      <button type="button" class="mzafa-header-icon" data-mzafa-search-toggle aria-label="Search" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      {%- if section.settings.show_cart -%}
+        <a href="{{ routes.cart_url }}" class="mzafa-header-icon mzafa-header-cart" aria-label="Cart">
+          <svg viewBox="0 0 24 24"><path d="M3 6h2l1 13h12l1-11H7"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+          {%- if cart.item_count > 0 -%}<span class="mzafa-header-cart-count">{{ cart.item_count }}</span>{%- endif -%}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.show_contact -%}
+        <a href="{{ section.settings.contact_link | default: routes.root_url }}" class="mzafa-header-contact">
+          <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg>
+          <span>{{ section.settings.contact_label | default: 'Contact Us' }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="mzafa-header-search" data-mzafa-search-panel>
+    <form action="{{ routes.search_url }}" method="get" role="search" class="mzafa-header-search-form">
+      <input type="search" name="q" placeholder="Search products" value="{{ search.terms | escape }}" required>
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</header>
+
+<div class="mzafa-drawer" id="mzafa-mobile-drawer" data-mzafa-drawer>
+  <div class="mzafa-drawer-backdrop" data-mzafa-drawer-close></div>
+  <div class="mzafa-drawer-panel">
+    <button type="button" class="mzafa-drawer-close" data-mzafa-drawer-close aria-label="Close menu">&times;</button>
+    <nav class="mzafa-drawer-nav">
+      <ul>
+        {%- for link in linklists[section.settings.menu].links -%}
+          <li>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- if link.links != blank -%}
+              <ul class="mzafa-drawer-sub">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+(function(){
+  var header = document.querySelector('[data-mzafa-header]');
+  if (!header) return;
+  var threshold = parseInt(header.getAttribute('data-threshold'), 10) || 60;
+  var hovered = false;
+
+  function update(){
+    var shouldCondense = !header.classList.contains('mzafa-header--hero') || window.scrollY > threshold || hovered;
+    header.classList.toggle('is-condensed', shouldCondense);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  header.addEventListener('mouseenter', function(){ hovered = true; update(); });
+  header.addEventListener('mouseleave', function(){ hovered = false; update(); });
+  update();
+
+  // Search flyout
+  var searchToggle = header.querySelector('[data-mzafa-search-toggle]');
+  var searchPanel = header.querySelector('[data-mzafa-search-panel]');
+  if (searchToggle && searchPanel) {
+    searchToggle.addEventListener('click', function(){
+      var open = searchPanel.classList.toggle('is-open');
+      searchToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        var input = searchPanel.querySelector('input[name="q"]');
+        if (input) setTimeout(function(){ input.focus(); }, 150);
+      }
+    });
+  }
+
+  // Mobile drawer
+  var menuToggle = header.querySelector('[data-mzafa-menu-toggle]');
+  var drawer = document.querySelector('[data-mzafa-drawer]');
+  function openDrawer(){
+    if (!drawer) return;
+    drawer.classList.add('is-open');
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    if (!drawer) return;
+    drawer.classList.remove('is-open');
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+  document.querySelectorAll('[data-mzafa-drawer-close]').forEach(function(el){
+    el.addEventListener('click', closeDrawer);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { closeDrawer(); if (searchPanel) { searchPanel.classList.remove('is-open'); if (searchToggle) searchToggle.setAttribute('aria-expanded','false'); } }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MZAFA Header",
+  "tag": "header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo image (optional)" },
+    { "type": "text", "id": "logo_text", "label": "Logo text (used if no image)", "default": "MZAFA" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "checkbox", "id": "transparent_on_home", "label": "Transparent overlay on home page hero", "default": true },
+    { "type": "range", "id": "shrink_offset", "label": "Scroll distance before header condenses (px)", "min": 20, "max": 200, "step": 10, "default": 60 },
+    { "type": "checkbox", "id": "show_cart", "label": "Show cart icon", "default": true },
+    { "type": "checkbox", "id": "show_contact", "label": "Show \"Contact Us\" link", "default": true },
+    { "type": "text", "id": "contact_label", "label": "Contact label", "default": "Contact Us" },
+    { "type": "url", "id": "contact_link", "label": "Contact link" }
+  ]
+}
+{% endschema %}

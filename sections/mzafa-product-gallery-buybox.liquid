@@ -1,0 +1,290 @@
+{{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="mzafa-clone">
+  <section class="mzafa-pdp">
+
+    <div class="mzafa-pdp-gallery">
+      <div class="mzafa-pdp-thumbs">
+        {%- if product.media.size > 1 -%}
+          {%- for media in product.media limit: 8 -%}
+            <button type="button" class="mzafa-pdp-thumb {% if forloop.first %}is-active{% endif %}" data-mzafa-thumb data-index="{{ forloop.index0 }}" aria-label="Show image {{ forloop.index }}">
+              {{ media | image_url: width: 200 | image_tag: loading: 'lazy' }}
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      <div class="mzafa-pdp-main">
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media limit: 8 -%}
+            {%- if forloop.first -%}
+              {%- assign mzafa_loading = 'eager' -%}
+              {%- assign mzafa_fetchpriority = 'high' -%}
+            {%- else -%}
+              {%- assign mzafa_loading = 'lazy' -%}
+              {%- assign mzafa_fetchpriority = 'auto' -%}
+            {%- endif -%}
+            <div class="mzafa-pdp-main-img" data-mzafa-main-img data-index="{{ forloop.index0 }}" data-active="{% if forloop.first %}true{% else %}false{% endif %}">
+              {{ media | image_url: width: 1400 | image_tag: loading: mzafa_loading, fetchpriority: mzafa_fetchpriority }}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="mzafa-pdp-main-img" data-active="true">
+            <div class="mzafa-placeholder"><span>Product Image — 4:5</span></div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="mzafa-pdp-buybox">
+      <div class="mzafa-pdp-vendor">{{ product.vendor | default: shop.name }}</div>
+      <h1 class="mzafa-pdp-title">{{ product.title }}</h1>
+      <div class="mzafa-pdp-price" data-mzafa-price>
+        {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+          <s>{{ product.selected_or_first_available_variant.compare_at_price | money }}</s>
+        {%- endif -%}
+        {{ product.selected_or_first_available_variant.price | money }}
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="mzafa-pdp-desc">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.origin_line != blank -%}
+        <div class="mzafa-pdp-origin">{{ section.settings.origin_line }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.features != blank -%}
+        <div class="mzafa-pdp-block">
+          <h3>{{ section.settings.features_heading }}</h3>
+          <ul class="mzafa-pdp-features">
+            {%- assign mzafa_lines = section.settings.features | newline_to_br | split: '<br />' -%}
+            {%- for line in mzafa_lines -%}
+              {%- assign mzafa_txt = line | strip -%}
+              {%- if mzafa_txt != '' -%}<li>{{ mzafa_txt }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.packaging != blank -%}
+        <div class="mzafa-pdp-block">
+          <h3>{{ section.settings.packaging_label }}</h3>
+          <p>{{ section.settings.packaging }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.payment_methods != blank -%}
+        <div class="mzafa-pdp-block">
+          <h3>{{ section.settings.payment_heading }}</h3>
+          <p>{{ section.settings.payment_methods }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.note != blank -%}
+        <div class="mzafa-pdp-note"><strong>{{ section.settings.note_heading }}</strong><br>{{ section.settings.note }}</div>
+      {%- endif -%}
+
+      {%- assign mzafa_form_id = 'mzafa-pdp-form-' | append: section.id -%}
+      {%- form 'product', product, id: mzafa_form_id, class: 'mzafa-pdp-form' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-mzafa-variant-id>
+        <script type="application/json" data-mzafa-variants>{{ product.variants | json }}</script>
+
+        {%- for option in product.options_with_values -%}
+          <div class="mzafa-pdp-option">
+            <span class="mzafa-pdp-size-label">{{ option.name }}</span>
+            <div class="mzafa-pdp-sizes">
+              {%- for value in option.values -%}
+                <label>
+                  <input
+                    type="radio"
+                    class="mzafa-pdp-size-input"
+                    name="mzafa-option-{{ forloop.parentloop.index0 }}"
+                    value="{{ value | escape }}"
+                    data-mzafa-option-input
+                    data-option-index="{{ forloop.parentloop.index0 }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <span class="mzafa-pdp-size-btn">{{ value }}</span>
+                </label>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <span class="mzafa-pdp-size-label">Quantity</span>
+        <div class="mzafa-pdp-qty">
+          <button type="button" data-mzafa-qty-minus aria-label="Decrease quantity">&minus;</button>
+          <input type="number" name="quantity" value="1" min="1" data-mzafa-qty-input>
+          <button type="button" data-mzafa-qty-plus aria-label="Increase quantity">+</button>
+        </div>
+
+        <div class="mzafa-pdp-actions">
+          <button
+            type="submit"
+            name="add"
+            class="mzafa-btn mzafa-btn--full"
+            data-mzafa-add-to-cart
+            {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}
+          >
+            {%- if product.selected_or_first_available_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+          </button>
+          <a href="{{ product.selected_or_first_available_variant.url }}" class="mzafa-btn mzafa-btn--solid mzafa-btn--full" data-mzafa-buy-now>Buy It Now</a>
+        </div>
+        <div class="mzafa-pdp-error" data-mzafa-error></div>
+      {%- endform -%}
+    </div>
+  </section>
+
+  <div class="mzafa-pdp-sticky" data-mzafa-sticky>
+    <span class="mzafa-pdp-sticky-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+    <button type="button" class="mzafa-btn mzafa-btn--solid" data-mzafa-sticky-add>Add to Cart</button>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [{%- for media in product.media limit: 5 -%}{{ media | image_url: width: 1200 | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}],
+  "description": {{ product.description | strip_html | truncate: 300 | json }},
+  "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": {
+    "@type": "Offer",
+    "url": {{ request.origin | append: product.url | json }},
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": {{ product.selected_or_first_available_variant.price | divided_by: 100.0 | json }},
+    "availability": "https://schema.org/{% if product.selected_or_first_available_variant.available %}InStock{% else %}OutOfStock{% endif %}"
+  }
+}
+</script>
+
+<script>
+(function(){
+  var scripts = document.querySelectorAll('[data-mzafa-variants]');
+  var lastScript = scripts[scripts.length - 1];
+  var root = lastScript ? lastScript.closest('.mzafa-clone') : document.querySelector('.mzafa-clone');
+  if (!root) return;
+
+  var thumbs = root.querySelectorAll('[data-mzafa-thumb]');
+  var mains = root.querySelectorAll('[data-mzafa-main-img]');
+  thumbs.forEach(function(t){
+    t.addEventListener('click', function(){
+      var idx = t.getAttribute('data-index');
+      thumbs.forEach(function(x){ x.classList.remove('is-active'); });
+      t.classList.add('is-active');
+      mains.forEach(function(m){ m.setAttribute('data-active', m.getAttribute('data-index') === idx ? 'true' : 'false'); });
+    });
+  });
+
+  var qtyInput = root.querySelector('[data-mzafa-qty-input]');
+  var minus = root.querySelector('[data-mzafa-qty-minus]');
+  var plus = root.querySelector('[data-mzafa-qty-plus]');
+  if (minus) minus.addEventListener('click', function(){ qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1); });
+  if (plus) plus.addEventListener('click', function(){ qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1; });
+
+  var variantsEl = root.querySelector('[data-mzafa-variants]');
+  var variants = variantsEl ? JSON.parse(variantsEl.textContent) : [];
+  var variantIdInput = root.querySelector('[data-mzafa-variant-id]');
+  var priceEl = root.querySelector('[data-mzafa-price]');
+  var addBtn = root.querySelector('[data-mzafa-add-to-cart]');
+  var buyBtn = root.querySelector('[data-mzafa-buy-now]');
+  var stickyPrice = root.querySelector('.mzafa-pdp-sticky-price');
+  var optionInputs = root.querySelectorAll('[data-mzafa-option-input]');
+
+  function moneyFormat(cents){
+    try {
+      return new Intl.NumberFormat(document.documentElement.lang || undefined, {
+        style: 'currency', currency: '{{ cart.currency.iso_code }}'
+      }).format(cents / 100);
+    } catch (e) { return (cents / 100).toFixed(2); }
+  }
+
+  function currentSelections(){
+    var groups = {};
+    optionInputs.forEach(function(inp){ if (inp.checked) groups[inp.getAttribute('data-option-index')] = inp.value; });
+    var sel = [], idx = 0;
+    while (Object.prototype.hasOwnProperty.call(groups, String(idx))) { sel.push(groups[String(idx)]); idx++; }
+    return sel;
+  }
+
+  function findVariant(sel){
+    return variants.filter(function(v){
+      var opts = [v.option1, v.option2, v.option3].filter(function(o){ return o !== null && o !== undefined; });
+      if (opts.length !== sel.length) return false;
+      return opts.every(function(o, i){ return o === sel[i]; });
+    })[0];
+  }
+
+  function updateForSelection(){
+    if (!optionInputs.length) return;
+    var match = findVariant(currentSelections());
+    var errorEl = root.querySelector('[data-mzafa-error]');
+    if (match) {
+      if (variantIdInput) variantIdInput.value = match.id;
+      var priceHtml = (match.compare_at_price && match.compare_at_price > match.price)
+        ? '<s>' + moneyFormat(match.compare_at_price) + '</s> ' + moneyFormat(match.price)
+        : moneyFormat(match.price);
+      if (priceEl) priceEl.innerHTML = priceHtml;
+      if (stickyPrice) stickyPrice.textContent = moneyFormat(match.price);
+      if (addBtn) { addBtn.disabled = !match.available; addBtn.textContent = match.available ? 'Add to Cart' : 'Sold Out'; }
+      if (buyBtn && match.url) buyBtn.setAttribute('href', match.url);
+      if (errorEl) errorEl.classList.remove('is-visible');
+    } else if (errorEl) {
+      errorEl.textContent = 'This combination is currently unavailable.';
+      errorEl.classList.add('is-visible');
+      if (addBtn) addBtn.disabled = true;
+    }
+  }
+  optionInputs.forEach(function(inp){ inp.addEventListener('change', updateForSelection); });
+
+  var form = root.querySelector('form.mzafa-pdp-form');
+  function addToCart(e){
+    if (e) e.preventDefault();
+    if (!form) return;
+    var fd = new FormData(form);
+    fetch('/cart/add.js', { method: 'POST', body: fd, headers: { Accept: 'application/json' } })
+      .then(function(res){ if (!res.ok) throw new Error('add-to-cart failed'); return res.json(); })
+      .then(function(){
+        if (window.theme && typeof window.theme.openCartDrawer === 'function') {
+          window.theme.openCartDrawer();
+        } else {
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          window.location.href = '/cart';
+        }
+      })
+      .catch(function(){ form.submit(); });
+  }
+  if (form) form.addEventListener('submit', addToCart);
+  var stickyAdd = root.querySelector('[data-mzafa-sticky-add]');
+  if (stickyAdd) stickyAdd.addEventListener('click', addToCart);
+
+  var sticky = root.querySelector('[data-mzafa-sticky]');
+  var buybox = root.querySelector('.mzafa-pdp-buybox');
+  if (sticky && buybox && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('is-visible', !entries[0].isIntersecting);
+    }, { rootMargin: '-160px 0px 0px 0px' }).observe(buybox);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MZAFA Product",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "origin_line", "label": "Origin / craft line", "default": "Designed and handcrafted in Pakistan" },
+    { "type": "text", "id": "features_heading", "label": "Features heading", "default": "Features" },
+    { "type": "textarea", "id": "features", "label": "Features (one per line)", "default": "Stone: Lab-created\nOriginal design, crafted with precision\nBrushed finish, rhodium plated\nHandmade" },
+    { "type": "text", "id": "packaging_label", "label": "Packaging heading", "default": "Packaging" },
+    { "type": "text", "id": "packaging", "label": "Packaging text", "default": "Comes with a luxury MZAFA box." },
+    { "type": "text", "id": "payment_heading", "label": "Payment methods heading", "default": "Payment Methods" },
+    { "type": "text", "id": "payment_methods", "label": "Payment methods text", "default": "Cash on Delivery across Pakistan, Bank Transfer, and JazzCash." },
+    { "type": "text", "id": "note_heading", "label": "Note heading", "default": "Note:" },
+    { "type": "textarea", "id": "note", "label": "Note text", "default": "Photos are professionally captured; slight colour variation may occur due to screen settings." }
+  ],
+  "presets": [{ "name": "MZAFA Product" }]
+}
+{% endschema %}

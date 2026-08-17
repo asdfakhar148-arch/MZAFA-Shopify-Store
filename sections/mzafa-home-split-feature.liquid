@@ -1,0 +1,80 @@
+{{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="mzafa-clone">
+  <section class="mzafa-split">
+    <div class="mzafa-split-copy">
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.body }}</p>
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="mzafa-btn">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+    <div class="mzafa-split-cards">
+      {%- for block in section.blocks -%}
+        {%- assign p = all_products[block.settings.linked_product] -%}
+        <a href="{%- if p != blank -%}{{ p.url }}{%- else -%}#{%- endif -%}" class="mzafa-split-card" {{ block.shopify_attributes }}>
+          <div class="mzafa-split-card-media">
+            {%- if block.settings.image_override != blank -%}
+              {{ block.settings.image_override | image_url: width: 700 | image_tag: loading: 'lazy' }}
+            {%- elsif p != blank and p.featured_image != blank -%}
+              {{ p.featured_image | image_url: width: 700 | image_tag: loading: 'lazy' }}
+            {%- else -%}
+              <div class="mzafa-placeholder"><span>Product Image — 1:1</span></div>
+            {%- endif -%}
+          </div>
+          <h4>{%- if p != blank -%}{{ p.title }}{%- else -%}{{ block.settings.title_fallback }}{%- endif -%}</h4>
+          <div class="mzafa-split-card-price">
+            {%- if p != blank -%}
+              {{ p.price_min | money }}{%- if p.price_varies -%} – {{ p.price_max | money }}{%- endif -%}
+            {%- else -%}
+              {{ block.settings.price_fallback }}
+            {%- endif -%}
+          </div>
+          {%- if p != blank and p.variants.size > 1 -%}
+            <div class="mzafa-swatches">
+              {%- for variant in p.variants limit: 4 -%}
+                <span class="mzafa-swatch" style="background: var(--mzafa-secondary); opacity: {{ forloop.index | times: 0.2 | plus: 0.4 }};" title="{{ variant.title | escape }}"></span>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "MZAFA Split Feature",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Black Orchid" },
+    { "type": "richtext", "id": "body", "label": "Body copy", "default": "<p>A study in dark light. Quiet power, modern grace, crafted for the everyday edit.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "linked_product", "label": "Product" },
+        { "type": "image_picker", "id": "image_override", "label": "Image override (optional)" },
+        { "type": "text", "id": "title_fallback", "label": "Fallback title (if no product linked)", "default": "Product Name" },
+        { "type": "text", "id": "price_fallback", "label": "Fallback price (if no product linked)", "default": "Rs.0.00" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MZAFA Split Feature",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,53 @@
+{{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="mzafa-clone">
+  <div class="mzafa-promo" data-mzafa-promo>
+    <button type="button" data-mzafa-promo-prev aria-label="Previous message">&#8249;</button>
+    <span data-mzafa-promo-text>
+      {%- for block in section.blocks -%}
+        <span data-mzafa-promo-msg {% unless forloop.first %}hidden{% endunless %}>{{ block.settings.text }}</span>
+      {%- endfor -%}
+    </span>
+    <button type="button" data-mzafa-promo-next aria-label="Next message">&#8250;</button>
+  </div>
+</div>
+
+{%- if section.blocks.size > 1 -%}
+<script>
+(function(){
+  var wrap = document.currentScript.previousElementSibling;
+  if (!wrap) return;
+  var msgs = wrap.querySelectorAll('[data-mzafa-promo-msg]');
+  var i = 0;
+  function show(n){ msgs.forEach(function(m,idx){ m.hidden = idx !== n; }); }
+  var prev = wrap.querySelector('[data-mzafa-promo-prev]');
+  var next = wrap.querySelector('[data-mzafa-promo-next]');
+  if (prev) prev.addEventListener('click', function(){ i = (i - 1 + msgs.length) % msgs.length; show(i); });
+  if (next) next.addEventListener('click', function(){ i = (i + 1) % msgs.length; show(i); });
+  setInterval(function(){ i = (i + 1) % msgs.length; show(i); }, 5000);
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MZAFA Promo Bar",
+  "tag": "section",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Message", "default": "Flat 5% discount on orders above Rs. 14,999/-" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MZAFA Promo Bar",
+      "blocks": [{ "type": "message" }]
+    }
+  ]
+}
+{% endschema %}

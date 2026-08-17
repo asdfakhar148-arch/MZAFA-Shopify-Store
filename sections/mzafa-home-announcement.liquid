@@ -1,0 +1,18 @@
+{{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
+
+<div class="mzafa-clone">
+  <div class="mzafa-announce">
+    {{ section.settings.text }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MZAFA Announce Bar",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Announcement text", "default": "Free Delivery Across Pakistan" }
+  ],
+  "presets": [{ "name": "MZAFA Announce Bar" }]
+}
+{% endschema %}
