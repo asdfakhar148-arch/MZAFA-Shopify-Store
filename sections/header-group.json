@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "MZAFA Header Group",
@@ -5,7 +14,8 @@
     "header_section": {
       "type": "mzafa-transparent-header",
       "settings": {
-        "logo_text": "MZAFA",
+        "logo": "shopify://shop_images/MZAFA_Header_logo-16.png",
+        "logo_text": "",
         "menu": "main-menu",
         "transparent_on_home": true,
         "shrink_offset": 60,
@@ -16,6 +26,7 @@
       }
     }
   },
-  "order": ["header_section"]
+  "order": [
+    "header_section"
+  ]
 }
-
