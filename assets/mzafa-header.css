@@ -9,7 +9,7 @@
   background: transparent;
   color: var(--mzafa-white, #fff);
   font-family: var(--mzafa-font-body, 'Poppins', sans-serif);
-  transition: background .35s ease, color .35s ease, box-shadow .35s ease;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
 }
 /* Non-hero pages: always use the solid white version. */
 .mzafa-header:not(.mzafa-header--hero){
@@ -62,7 +62,18 @@
   text-transform: uppercase;
   text-align: center;
 }
-.mzafa-header-logo img{ max-height: 34px; width: auto; }
+.mzafa-header-logo img{ max-height: 34px; width: auto; transition: filter .2s ease; }
+
+/* The uploaded logo is a white PNG. Convert its visible pixels to black
+   whenever this header changes to its white state. */
+.mzafa-header.is-condensed .mzafa-header-logo img,
+.mzafa-header:not(.mzafa-header--hero) .mzafa-header-logo img{ filter: brightness(0); }
+
+/* Keep every visible header control synchronized with the white background. */
+.mzafa-header.is-condensed :is(.mzafa-header-menu-btn, .mzafa-header-logo, .mzafa-header-icon, .mzafa-header-contact),
+.mzafa-header:not(.mzafa-header--hero) :is(.mzafa-header-menu-btn, .mzafa-header-logo, .mzafa-header-icon, .mzafa-header-contact){
+  color: var(--mzafa-primary, #2B2620);
+}
 
 .mzafa-header-icon{
   color: inherit; display: inline-flex; align-items: center; justify-content: center;
