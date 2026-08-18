@@ -7,7 +7,7 @@
   <div class="mzafa-header-inner">
     <div class="mzafa-header-left">
       <button type="button" class="mzafa-header-menu-btn" data-mzafa-menu-toggle aria-expanded="false" aria-controls="mzafa-mobile-drawer">
-        <span class="mzafa-header-menu-icon"><span></span><span></span></span>
+        <span class="mzafa-header-menu-icon"><span></span><span></span><span></span></span>
         <span>Menu</span>
       </button>
     </div>
@@ -56,7 +56,7 @@
     <button type="button" class="mzafa-drawer-close" data-mzafa-drawer-close aria-label="Close menu">&times;</button>
     <nav class="mzafa-drawer-nav">
       <ul>
-        {%- for link in linklists[section.settings.menu].links -%}
+        {%- for link in section.settings.menu.links -%}
           <li>
             <a href="{{ link.url }}">{{ link.title }}</a>
             {%- if link.links != blank -%}
@@ -80,11 +80,16 @@
   var threshold = parseInt(header.getAttribute('data-threshold'), 10) || 60;
   var hovered = false;
 
+  function getScrollOffset(){
+    var pageWrapper = document.querySelector('.page-wrapper');
+    return pageWrapper ? pageWrapper.scrollTop : (window.scrollY || document.documentElement.scrollTop || 0);
+  }
   function update(){
-    var shouldCondense = !header.classList.contains('mzafa-header--hero') || window.scrollY > threshold || hovered;
+    var shouldCondense = !header.classList.contains('mzafa-header--hero') || getScrollOffset() > threshold || hovered;
     header.classList.toggle('is-condensed', shouldCondense);
   }
   window.addEventListener('scroll', update, { passive: true });
+  document.addEventListener('scroll', update, { passive: true, capture: true });
   header.addEventListener('mouseenter', function(){ hovered = true; update(); });
   header.addEventListener('mouseleave', function(){ hovered = false; update(); });
   update();
@@ -145,3 +150,4 @@
   ]
 }
 {% endschema %}
+
