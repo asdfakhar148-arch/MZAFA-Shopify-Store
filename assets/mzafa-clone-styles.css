@@ -192,22 +192,22 @@
   pointer-events:auto;
 }
 .mzafa-story-card__inner{
-  width:min(100%, 1180px);
+  width:min(100%, 1248px);
   display:grid;
-  grid-template-columns:minmax(280px, .88fr) minmax(320px, 1fr);
+  grid-template-columns:minmax(300px, .95fr) minmax(320px, 1fr);
   align-items:center;
-  gap:clamp(48px, 10vw, 160px);
+  gap:clamp(40px, 6vw, 88px);
 }
 .mzafa-story-card__media{
   width:100%;
-  max-width:460px;
+  max-width:540px;
   justify-self:end;
-  aspect-ratio:4 / 5;
-  max-height:66svh;
+  aspect-ratio:1 / 1.2;
+  max-height:72svh;
   overflow:hidden;
-  border-radius:10px;
+  border-radius:0;
   background:var(--mzafa-primary);
-  box-shadow:0 18px 48px rgba(43,38,32,.16);
+  box-shadow:none;
 }
 .mzafa-story-card__media img,
 .mzafa-story-card__media .mzafa-placeholder{
@@ -216,17 +216,13 @@
   object-fit:cover;
 }
 .mzafa-story-card__copy{
-  max-width:460px;
+  max-width:520px;
   justify-self:start;
   text-align:center;
   color:var(--mzafa-primary);
 }
-.mzafa-story-card__copy .mzafa-eyebrow{
-  margin-bottom:18px;
-  color:var(--mzafa-primary-60);
-}
 .mzafa-story-card__copy h2{
-  font-size:clamp(34px, 4.2vw, 62px);
+  font-size:56.9px;
   text-transform:uppercase;
   letter-spacing:.06em;
   color:var(--mzafa-primary);
@@ -235,8 +231,14 @@
 .mzafa-story-card__description{
   max-width:32ch;
   margin:0 auto 32px;
-  font-size:clamp(15px, 1.25vw, 18px);
+  font-size:22.4px;
   line-height:1.45;
+  font-weight:400;
+}
+.mzafa-story-card__description p{
+  font-size:inherit;
+  line-height:inherit;
+  font-weight:inherit;
 }
 .mzafa-story-card__button{
   display:inline-flex;
@@ -264,6 +266,14 @@
 .mzafa-story-card--reverse .mzafa-story-card__copy{
   order:1;
   justify-self:end;
+}
+
+@media screen and (min-width:1280px){
+  .mzafa-story-card__inner{
+    grid-template-columns:540px minmax(420px, 1fr);
+    gap:clamp(80px, 11vw, 188px);
+  }
+  .mzafa-story-card__media{ width:540px; }
 }
 
 @media (prefers-reduced-motion:no-preference){
@@ -323,6 +333,11 @@
     justify-self:center;
     order:1;
   }
+}
+
+@media screen and (max-width:749px){
+  .mzafa-story-card__copy h2{ font-size:clamp(34px, 10vw, 46px); }
+  .mzafa-story-card__description{ font-size:18px; }
 }
 
 /* =========================================================================
