@@ -67,6 +67,53 @@
         "button_link": ""
       }
     },
+    "mzafa_home_banner_97PbRY": {
+      "type": "mzafa-home-banner",
+      "name": "MZAFA Full Banner",
+      "settings": {
+        "heading": "Statement Rings",
+        "link_label": "Discover",
+        "link": ""
+      }
+    },
+    "mzafa_home_collection_grid_HxbG4b": {
+      "type": "mzafa-home-collection-grid",
+      "blocks": {
+        "card_MDFrwz": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Untitled-1-01.jpg",
+            "title": "MODERN",
+            "link_label": "Discover",
+            "link": ""
+          }
+        },
+        "card_zViUin": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/9c199bb4-1cd5-4947-89c9-c05539ddbc3f.png",
+            "title": "Talon",
+            "link_label": "Discover",
+            "link": ""
+          }
+        },
+        "card_b9hpiC": {
+          "type": "card",
+          "settings": {
+            "title": "Monolith",
+            "link_label": "Discover",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "card_MDFrwz",
+        "card_zViUin",
+        "card_b9hpiC"
+      ],
+      "name": "MZAFA Collection Grid",
+      "settings": {}
+    },
     "mzafa_home_trust_icons_JMdLCd": {
       "type": "mzafa-home-trust-icons",
       "blocks": {
@@ -98,53 +145,6 @@
         "item_3ayPNK"
       ],
       "name": "MZAFA Trust Icons",
-      "settings": {}
-    },
-    "mzafa_home_banner_97PbRY": {
-      "type": "mzafa-home-banner",
-      "name": "MZAFA Full Banner",
-      "settings": {
-        "heading": "Statement Rings",
-        "link_label": "Discover",
-        "link": ""
-      }
-    },
-    "mzafa_home_collection_grid_HxbG4b": {
-      "type": "mzafa-home-collection-grid",
-      "blocks": {
-        "card_MDFrwz": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/Untitled-1-01.jpg",
-            "title": "",
-            "link_label": "Discover",
-            "link": ""
-          }
-        },
-        "card_zViUin": {
-          "type": "card",
-          "settings": {
-            "image": "shopify://shop_images/9c199bb4-1cd5-4947-89c9-c05539ddbc3f.png",
-            "title": "Talon",
-            "link_label": "Discover",
-            "link": ""
-          }
-        },
-        "card_b9hpiC": {
-          "type": "card",
-          "settings": {
-            "title": "Monolith",
-            "link_label": "Discover",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "card_MDFrwz",
-        "card_zViUin",
-        "card_b9hpiC"
-      ],
-      "name": "MZAFA Collection Grid",
       "settings": {}
     },
     "product_list_fa6P9H": {
