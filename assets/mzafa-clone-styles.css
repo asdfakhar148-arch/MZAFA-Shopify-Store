@@ -160,6 +160,172 @@
 }
 
 /* =========================================================================
+   HOME — Pinned collection story
+   ========================================================================== */
+.mzafa-story{
+  position:relative;
+  min-height:var(--mzafa-story-height, 400svh);
+  background:var(--mzafa-secondary);
+}
+.mzafa-story__sticky{
+  position:sticky;
+  top:0;
+  height:100svh;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  padding:clamp(24px, 5vw, 72px);
+}
+.mzafa-story-card{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:clamp(24px, 5vw, 72px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.mzafa-story-card.is-active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+.mzafa-story-card__inner{
+  width:min(100%, 1180px);
+  display:grid;
+  grid-template-columns:minmax(280px, .88fr) minmax(320px, 1fr);
+  align-items:center;
+  gap:clamp(48px, 10vw, 160px);
+}
+.mzafa-story-card__media{
+  width:100%;
+  max-width:460px;
+  justify-self:end;
+  aspect-ratio:4 / 5;
+  max-height:66svh;
+  overflow:hidden;
+  border-radius:10px;
+  background:var(--mzafa-primary);
+  box-shadow:0 18px 48px rgba(43,38,32,.16);
+}
+.mzafa-story-card__media img,
+.mzafa-story-card__media .mzafa-placeholder{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.mzafa-story-card__copy{
+  max-width:460px;
+  justify-self:start;
+  text-align:center;
+  color:var(--mzafa-primary);
+}
+.mzafa-story-card__copy .mzafa-eyebrow{
+  margin-bottom:18px;
+  color:var(--mzafa-primary-60);
+}
+.mzafa-story-card__copy h2{
+  font-size:clamp(34px, 4.2vw, 62px);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--mzafa-primary);
+  margin-bottom:22px;
+}
+.mzafa-story-card__description{
+  max-width:32ch;
+  margin:0 auto 32px;
+  font-size:clamp(15px, 1.25vw, 18px);
+  line-height:1.45;
+}
+.mzafa-story-card__button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:14px 24px;
+  border-radius:9px;
+  background:var(--mzafa-primary);
+  color:var(--mzafa-white) !important;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  transition:transform .25s var(--mzafa-ease), background .25s var(--mzafa-ease);
+}
+.mzafa-story-card__button:hover{
+  transform:translateY(-2px);
+  background:#443a30;
+}
+.mzafa-story-card--reverse .mzafa-story-card__media{
+  order:2;
+  justify-self:start;
+}
+.mzafa-story-card--reverse .mzafa-story-card__copy{
+  order:1;
+  justify-self:end;
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .mzafa-story-card{
+    transition:opacity .55s var(--mzafa-ease), visibility 0s linear .55s;
+  }
+  .mzafa-story-card.is-active{ transition:opacity .55s var(--mzafa-ease); }
+  .mzafa-story-card__media,
+  .mzafa-story-card__copy{
+    opacity:0;
+    transition:opacity .7s var(--mzafa-ease), transform .7s var(--mzafa-ease);
+  }
+  .mzafa-story-card__media{ transform:translateX(-48px); }
+  .mzafa-story-card__copy{ transform:translateX(48px); transition-delay:.1s; }
+  .mzafa-story-card--reverse .mzafa-story-card__media{ transform:translateX(48px); }
+  .mzafa-story-card--reverse .mzafa-story-card__copy{ transform:translateX(-48px); }
+  .mzafa-story-card.is-active .mzafa-story-card__media,
+  .mzafa-story-card.is-active .mzafa-story-card__copy{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+@media screen and (max-width:749px), (prefers-reduced-motion:reduce){
+  .mzafa-story{
+    min-height:auto;
+    padding:40px 20px;
+  }
+  .mzafa-story__sticky{
+    position:relative;
+    height:auto;
+    overflow:visible;
+    display:block;
+    padding:0;
+  }
+  .mzafa-story-card{
+    position:relative;
+    display:block;
+    padding:0;
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+  }
+  .mzafa-story-card + .mzafa-story-card{ margin-top:64px; }
+  .mzafa-story-card__inner{
+    grid-template-columns:1fr;
+    gap:28px;
+  }
+  .mzafa-story-card__media,
+  .mzafa-story-card--reverse .mzafa-story-card__media{
+    max-width:520px;
+    justify-self:center;
+    order:0;
+  }
+  .mzafa-story-card__copy,
+  .mzafa-story-card--reverse .mzafa-story-card__copy{
+    justify-self:center;
+    order:1;
+  }
+}
+
+/* =========================================================================
    HOME — Full-width banner (Statement Earrings / Silver Rings)
    ========================================================================= */
 .mzafa-banner{ position:relative; width:100%; aspect-ratio:16/9; min-height:360px; max-height:720px; overflow:hidden; }
@@ -323,3 +489,4 @@
 
 /* Empty price/state guards */
 .mzafa-clone .mzafa-pdp-price:empty{ display:none; }
+
