@@ -16,6 +16,8 @@
       "settings": {
         "logo": "shopify://shop_images/MZAFA_Header_logo-16.png",
         "logo_text": "",
+        "header_height": 108,
+        "header_height_mobile": 76,
         "menu": "main-menu",
         "transparent_on_home": true,
         "shrink_offset": 90,
@@ -30,3 +32,4 @@
     "header_section"
   ]
 }
+

@@ -3,7 +3,12 @@
 {%- assign mzafa_is_home = false -%}
 {%- if request.page_type == 'index' -%}{%- assign mzafa_is_home = true -%}{%- endif -%}
 
-<header class="mzafa-header {% if mzafa_is_home and section.settings.transparent_on_home %}mzafa-header--hero{% endif %}" data-mzafa-header data-threshold="{{ section.settings.shrink_offset }}">
+<header
+  class="mzafa-header {% if mzafa_is_home and section.settings.transparent_on_home %}mzafa-header--hero{% endif %}"
+  data-mzafa-header
+  data-threshold="{{ section.settings.shrink_offset }}"
+  style="--mzafa-header-height: {{ section.settings.header_height | default: 108 }}px; --mzafa-header-height-mobile: {{ section.settings.header_height_mobile | default: 76 }}px;"
+>
   <div class="mzafa-header-inner">
     <div class="mzafa-header-left">
       <button type="button" class="mzafa-header-menu-btn" data-mzafa-menu-toggle aria-expanded="false" aria-controls="mzafa-mobile-drawer">
@@ -140,6 +145,9 @@
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo image (optional)" },
     { "type": "text", "id": "logo_text", "label": "Logo text (used if no image)", "default": "MZAFA" },
+    { "type": "header", "content": "Header size" },
+    { "type": "range", "id": "header_height", "label": "Header height on desktop", "min": 64, "max": 180, "step": 2, "unit": "px", "default": 108 },
+    { "type": "range", "id": "header_height_mobile", "label": "Header height on mobile", "min": 52, "max": 130, "step": 2, "unit": "px", "default": 76 },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
     { "type": "checkbox", "id": "transparent_on_home", "label": "Transparent overlay on home page hero", "default": true },
     { "type": "range", "id": "shrink_offset", "label": "Scroll distance before header condenses (px)", "min": 20, "max": 200, "step": 10, "default": 60 },

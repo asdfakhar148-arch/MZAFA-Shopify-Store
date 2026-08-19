@@ -31,7 +31,8 @@
   gap: 16px;
   max-width: 1800px;
   margin: 0 auto;
-  padding: 36px clamp(24px, 4.5vw, 72px);
+  min-height: var(--mzafa-header-height, 108px);
+  padding: 0 clamp(24px, 4.5vw, 72px);
 }
 
 .mzafa-header-left,
@@ -130,7 +131,10 @@
 .mzafa-header:not(.mzafa-header--hero) .mzafa-header-search-form button{ color: var(--mzafa-primary, #2B2620); }
 
 @media (max-width: 749px){
-  .mzafa-header-inner{ padding: 22px 20px; }
+  .mzafa-header-inner{
+    min-height: var(--mzafa-header-height-mobile, 76px);
+    padding: 0 20px;
+  }
   .mzafa-header-left,
   .mzafa-header-right{ gap: 14px; }
   .mzafa-header-menu-btn{ font-size: 13px; }
