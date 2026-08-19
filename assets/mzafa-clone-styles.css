@@ -193,7 +193,7 @@
 }
 .mzafa-story-card__inner{
   position:relative;
-  top:10svh;
+  top:5svh;
   width:min(100%, 1248px);
   display:grid;
   grid-template-columns:minmax(300px, .95fr) minmax(320px, 1fr);
@@ -280,16 +280,16 @@
 
 @media (prefers-reduced-motion:no-preference){
   .mzafa-story-card{
-    transition:opacity .55s var(--mzafa-ease), visibility 0s linear .55s;
+    transition:opacity .605s var(--mzafa-ease), visibility 0s linear .605s;
   }
-  .mzafa-story-card.is-active{ transition:opacity .55s var(--mzafa-ease); }
+  .mzafa-story-card.is-active{ transition:opacity .605s var(--mzafa-ease); }
   .mzafa-story-card__media,
   .mzafa-story-card__copy{
     opacity:0;
-    transition:opacity .7s var(--mzafa-ease), transform .7s var(--mzafa-ease);
+    transition:opacity .77s var(--mzafa-ease), transform .77s var(--mzafa-ease);
   }
   .mzafa-story-card__media{ transform:translateX(-48px); }
-  .mzafa-story-card__copy{ transform:translateX(48px); transition-delay:.1s; }
+  .mzafa-story-card__copy{ transform:translateX(48px); transition-delay:.11s; }
   .mzafa-story-card--reverse .mzafa-story-card__media{ transform:translateX(48px); }
   .mzafa-story-card--reverse .mzafa-story-card__copy{ transform:translateX(-48px); }
   .mzafa-story-card.is-active .mzafa-story-card__media,

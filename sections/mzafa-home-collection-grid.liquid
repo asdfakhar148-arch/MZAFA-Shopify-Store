@@ -1,6 +1,6 @@
 {{ 'mzafa-clone-styles.css' | asset_url | stylesheet_tag }}
 
-{%- assign story_transition_height = section.blocks.size | times: 70 -%}
+{%- assign story_transition_height = section.blocks.size | times: 90 -%}
 {%- assign story_scroll_height = story_transition_height | plus: 100 -%}
 
 <div class="mzafa-clone">
@@ -13,19 +13,13 @@
     <div class="mzafa-story__sticky">
       {%- for block in section.blocks -%}
         {% liquid
-          assign direction = ''
-          assign position_in_cycle = forloop.index | modulo: 3
-          if position_in_cycle == 0
-            assign direction = ' mzafa-story-card--reverse'
-          endif
-
           assign description = block.settings.description
           if description == blank
             assign description = 'A study in dark light. Quiet power, modern grace, crafted for the everyday edit.'
           endif
         %}
         <article
-          class="mzafa-story-card{{ direction }}{% if forloop.first %} is-active{% endif %}"
+          class="mzafa-story-card{% if forloop.first %} is-active{% endif %}"
           data-mzafa-story-card
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
           {{ block.shopify_attributes }}
