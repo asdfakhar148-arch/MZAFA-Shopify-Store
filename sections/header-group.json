@@ -18,7 +18,7 @@
         "logo_text": "",
         "menu": "main-menu",
         "transparent_on_home": true,
-        "shrink_offset": 60,
+        "shrink_offset": 90,
         "show_cart": false,
         "show_contact": true,
         "contact_label": "Contact Us",
