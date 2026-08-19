@@ -84,6 +84,7 @@
           "settings": {
             "image": "shopify://shop_images/Untitled-1-01.jpg",
             "title": "MODERN",
+            "description": "<p>A study in dark light. Quiet power, modern grace, crafted for the everyday</p>",
             "link_label": "Discover",
             "link": ""
           }
@@ -93,6 +94,7 @@
           "settings": {
             "image": "shopify://shop_images/9c199bb4-1cd5-4947-89c9-c05539ddbc3f.png",
             "title": "Talon",
+            "description": "<p>A study in dark light. Quiet power, modern grace, crafted for the everyday</p>",
             "link_label": "Discover",
             "link": ""
           }
@@ -101,6 +103,7 @@
           "type": "card",
           "settings": {
             "title": "Monolith",
+            "description": "<p>A study in dark light. Quiet power, modern grace, crafted for the everyday edit.</p>",
             "link_label": "Discover",
             "link": ""
           }
