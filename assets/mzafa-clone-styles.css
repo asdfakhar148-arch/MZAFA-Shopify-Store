@@ -192,6 +192,8 @@
   pointer-events:auto;
 }
 .mzafa-story-card__inner{
+  position:relative;
+  top:10svh;
   width:min(100%, 1248px);
   display:grid;
   grid-template-columns:minmax(300px, .95fr) minmax(320px, 1fr);
@@ -319,6 +321,7 @@
   }
   .mzafa-story-card + .mzafa-story-card{ margin-top:64px; }
   .mzafa-story-card__inner{
+    top:0;
     grid-template-columns:1fr;
     gap:28px;
   }
