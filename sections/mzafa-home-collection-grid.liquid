@@ -43,7 +43,7 @@
               {%- if block.settings.title != blank -%}
                 <h2>{{ block.settings.title }}</h2>
               {%- endif -%}
-              <p class="mzafa-story-card__description">{{ description }}</p>
+              <div class="mzafa-story-card__description rte">{{ description }}</div>
               {%- if block.settings.link_label != blank -%}
                 <a class="mzafa-story-card__button" href="{{ block.settings.link | default: '#' }}">
                   {{ block.settings.link_label }}
@@ -71,7 +71,7 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "title", "label": "Heading", "default": "Collection Name" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "A study in dark light. Quiet power, modern grace, crafted for the everyday edit." },
+        { "type": "richtext", "id": "description", "label": "Body text", "default": "<p>A study in dark light. Quiet power, modern grace, crafted for the everyday edit.</p>" },
         { "type": "text", "id": "link_label", "label": "Button label", "default": "Explore" },
         { "type": "url", "id": "link", "label": "Button link" }
       ]
