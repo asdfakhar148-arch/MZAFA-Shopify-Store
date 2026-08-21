@@ -71,6 +71,7 @@
       "type": "mzafa-home-banner",
       "name": "MZAFA Full Banner",
       "settings": {
+        "image": "shopify://shop_images/ChatGPT_Image_Aug_7_2026_09_10_46_PM_LE_upscale_prime_x2_0ec50ad1-9b24-4b17-b7ae-3fcae03916d6.jpg",
         "heading": "Statement Rings",
         "link_label": "Discover",
         "link": ""
